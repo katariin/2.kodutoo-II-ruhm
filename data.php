@@ -10,13 +10,13 @@
  	} 
  	 
  	//login valja, aadressireal on ?logout=1 
- 	if(isset($_GET["logout"])){ 
+ //	if(isset($_GET["logout"])){ 
 		//kustutab koik sessiooni muutujad 
- 		session_destroy(); 
+ 	//	session_destroy(); 
 		 
- 		header("Location: login.php"); 
+ 		//header("Location: login.php"); 
  		 
- 	} 
+ //	} 
  	 
  $clothes = $brand = $size = $color = $clothes_error = $brand_error = $size_error = $color_error = "";
  	 

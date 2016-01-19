@@ -22,6 +22,7 @@ require_once("functions.php");
 	$create_password = "";
 	$firstname = "";
 	$lastname = "";
+	
 	if($_SERVER["REQUEST_METHOD"] == "POST") {
     // *********************
     // **** LOGI SISSE *****
@@ -91,12 +92,12 @@ require_once("functions.php");
 		if(	$create_email_error == "" && $create_password_error == "" && $firstname_error == "" && $lastname_error== "" ){
 			echo "Võib kasutajat luua! Kasutajanimi on ".$create_email." ja parool on ".$create_password; 
  				 
- 				$password_hash = hash("sha512", $create_password); 
+ 				$create_password_hash = hash("sha512", $create_password); 
 				echo "<br>"; 
- 				echo $password_hash; 
+ 				echo $create_password_hash; 
 				 
  				// functions.php failis käivina funktsiooni 
- 				createUser($create_email, $password_hash, $firstname, $lastname); 
+ 				createUser($create_email, $create_password_hash, $firstname, $lastname); 
  				 
 
         }
@@ -111,6 +112,7 @@ require_once("functions.php");
   }
   
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>

@@ -10,12 +10,12 @@
   
  	 
  	// lisame kasutaja ab'i 
- 	function createUser($create_email, $password_hash, $firstname, $lastname){ 
+ 	function createUser($create_email, $create_password_hash, $firstname, $lastname){ 
  		// globals on muutuja koigist php failidest mis on uhendatud 
  		$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]); 
  		 
 		$stmt = $mysqli->prepare("INSERT INTO users_login (email, password, firstname, lastname) VALUES (?, ?, ?, ?)"); 
- 		$stmt->bind_param("ssss", $create_email, $password_hash, $firstname, $lastname); 
+ 		$stmt->bind_param("ssss", $create_email, $create_password_hash, $firstname, $lastname); 
  		$stmt->execute(); 
  		$stmt->close(); 
  		 
@@ -35,13 +35,13 @@
  			echo "kasutaja id=".$id_from_db; 
  			 
 			$_SESSION["id_from_db"] = $id_from_db; 
- 			$_SESSION["user_email"] = $email_from_db; 
+ 			$_SESSION["email"] = $email_from_db; 
  			 
  			//suunan kasutaja data.php lehele 
 			header("Location: data.php"); 
  			 
  			 
-		}else{ 
+		  }else{ 
  			echo "Wrong password or email!"; 
 		} 
  		$stmt->close(); 
