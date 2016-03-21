@@ -10,13 +10,13 @@
  	} 
  	 
  	//login valja, aadressireal on ?logout=1 
- //	if(isset($_GET["logout"])){ 
+ 	if(isset($_GET["logout"])){ 
 		//kustutab koik sessiooni muutujad 
- 	//	session_destroy(); 
+ 		session_destroy(); 
 		 
- 		//header("Location: login.php"); 
+ 		header("Location: login.php"); 
  		 
- //	} 
+ 	} 
  	 
  $clothes = $brand = $size = $color = $clothes_error = $brand_error = $size_error = $color_error = "";
  	 
@@ -56,9 +56,9 @@
  			 
  			// functions.php failis kaivina funktsiooni 
  			// msq on message funktsioonist mis tagasi saadame 
- 			$message = createFashion($clothes, $brand, $size, $color);
+ 			$msg = createFashion($clothes, $brand, $size, $color);
 			
-			if($message != ""){
+			if($msg != ""){
 				//salvestamine
 				//teen tyhjaks input value's
 				$clothes="";
@@ -67,7 +67,7 @@
 				$color = "";
 				
 				
-				echo $message;
+				echo $msg;
  				 
 			} 
 			 
@@ -92,7 +92,8 @@
  	<a href="?logout=1"> Logi valja</a> 
  </p> 
  
- 
+<!DOCTYPE html>
+<html> 
 <h2>Lisa riietus</h2>
   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
    <label for="clothes" >Riietus</label><br>

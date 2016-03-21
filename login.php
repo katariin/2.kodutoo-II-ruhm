@@ -1,6 +1,12 @@
 <?php
 
-require_once("functions.php"); 
+   
+	
+	//$mysqli = new mysqli($servername, $server_username, $server_password, $database);
+
+    require_once("functions.php"); 
+	
+ 	$database = "if15_jekavor";
  	 
  	//kontrollin, kas kasutaja on sisseloginud 
  	if(isset($_SESSION["id_from_db"])){ 
@@ -49,8 +55,30 @@ require_once("functions.php");
  				$password_hash = hash("sha512", $password); 
  				 
  				// functions php failis käivitan funktsiooni 
- 				loginUser($email, $password_hash); 
- 			} 
+ 				$login_response = $User->loginUser($email, $password_hash); 
+ 			   if(isset($login_response->success)){
+					
+					//echo "<pre>";
+					//var_dump($login_response);
+					//echo "</pre>";
+					// läks edukalt, nüüd peaks kasutaja sessiooni salvestama
+					$_SESSION["id_from_db"] = $login_response->success->user->id;
+					$_SESSION["user_email"] = $login_response->success->user->email;
+					
+					header("Location: data.php");
+					
+					//******************************
+					//********* OLULINE ************
+					//******************************
+					
+					// lõpetame PHP laadimise
+					exit();
+					
+					
+				}
+			
+			} 
+			
  
 		} // login if end 
 
@@ -92,12 +120,12 @@ require_once("functions.php");
 		if(	$create_email_error == "" && $create_password_error == "" && $firstname_error == "" && $lastname_error== "" ){
 			echo "Võib kasutajat luua! Kasutajanimi on ".$create_email." ja parool on ".$create_password; 
  				 
- 				$create_password_hash = hash("sha512", $create_password); 
+ 				$password_hash = hash("sha512", $create_password); 
 				echo "<br>"; 
- 				echo $create_password_hash; 
+ 				echo $password_hash; 
 				 
  				// functions.php failis käivina funktsiooni 
- 				createUser($create_email, $create_password_hash, $firstname, $lastname); 
+ 				createUser($create_email, $password_hash, $firstname, $lastname); 
  				 
 
         }
@@ -121,6 +149,20 @@ require_once("functions.php");
 <body>
 
   <h2>Log in</h2>
+   <?php if(isset($login_response->error)): ?>
+  
+	<p style="color:red;">
+		<?=$login_response->error->message;?>
+	</p>
+  
+  <?php elseif(isset($login_response->success)): ?>
+  
+	<p style="color:green;">
+		<?=$login_response->success->message;?>
+	</p>
+  
+  <?php endif; ?>  
+  
   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
   	<input name="email" type="email" placeholder="E-post" value="<?php echo $email; ?>"> <?php echo $email_error; ?><br><br>
   	<input name="password" type="password" placeholder="Parool" value="<?php echo $password; ?>"> <?php echo $password_error; ?><br><br>
@@ -128,6 +170,19 @@ require_once("functions.php");
   </form>
 
   <h2>Create user</h2>
+  <?php if(isset($create_response->error)): ?>
+  
+	<p style="color:red;">
+		<?=$create_response->error->message;?>
+	</p>
+  
+  <?php elseif(isset($create_response->success)): ?>
+  
+	<p style="color:green;">
+		<?=$create_response->success->message;?>
+	</p>
+  
+  <?php endif; ?>  
   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
   	<input name="create_email" type="email" placeholder="E-post" value="<?php echo $create_email; ?>"> * <?php echo $create_email_error; ?><br><br>
   	<input name="create_password" type="password" placeholder="Parool" value="<?php echo $create_password; ?>"> * <?php echo $create_password_error; ?><br><br>
