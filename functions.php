@@ -24,7 +24,7 @@
  		$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]); 
  		 
 		$stmt = $mysqli->prepare("INSERT INTO users_login (email, password, firstname, lastname) VALUES (?, ?, ?, ?)"); 
- 		$stmt->bind_param("ssss", $create_email, $create_password_hash, $firstname, $lastname); 
+ 		$stmt->bind_param("ssss", $create_email, $password_hash, $firstname, $lastname); 
  		$stmt->execute(); 
  		$stmt->close(); 
  		 

@@ -1,6 +1,4 @@
 <?php
-
-   
 	
 	//$mysqli = new mysqli($servername, $server_username, $server_password, $database);
 
@@ -53,25 +51,18 @@
 				echo "Võib sisse logida! Kasutajanimi on ".$email." ja parool on ".$password; 
  				 
  				$password_hash = hash("sha512", $password); 
+				echo($password_hash);
  				 
  				// functions php failis käivitan funktsiooni 
- 				$login_response = $User->loginUser($email, $password_hash); 
+ 				$login_response =loginUser($email, $password_hash); 
  			   if(isset($login_response->success)){
-					
-					//echo "<pre>";
-					//var_dump($login_response);
-					//echo "</pre>";
-					// läks edukalt, nüüd peaks kasutaja sessiooni salvestama
+
 					$_SESSION["id_from_db"] = $login_response->success->user->id;
 					$_SESSION["user_email"] = $login_response->success->user->email;
 					
 					header("Location: data.php");
 					
-					//******************************
-					//********* OLULINE ************
-					//******************************
-					
-					// lõpetame PHP laadimise
+			
 					exit();
 					
 					
@@ -80,7 +71,7 @@
 			} 
 			
  
-		} // login if end 
+		} 
 
 
     // *********************
@@ -129,9 +120,9 @@
  				 
 
         }
-    } // create if end
+    } 
    }
-  // funktsioon, mis eemaldab koikvoimaliku uleliigse tekstist
+  
   function cleanInput($data) {
   	$data = trim($data);
   	$data = stripslashes($data);
